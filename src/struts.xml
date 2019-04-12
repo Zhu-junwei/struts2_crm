@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<!-- 配置struts2的常量 -->
+	<!-- 配置扩展名 -->
+	<constant name="struts.action.extension" value="action"/>
+	
+	<!-- Struts2为了管理Action的配置，通过包进行管理 -->
+	<!-- 配置Struts2的包 -->
+    <package name="crm" namespace="/" extends="struts-default">
+		<action name="customer_*" class="com.zhujunwei.web.action.CustomerAction" method="{1}">
+			<result name="findSuccess">/jsp/customer/list.jsp</result>
+			<result name="saveUI">/jsp/customer/add.jsp</result>
+			<result name="saveSuccess" type="redirectAction">customer_find</result>
+		</action>
+    	
+    </package>
+
+</struts>
