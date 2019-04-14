@@ -2,8 +2,7 @@ package com.zhujunwei.web.action;
 
 import java.util.List;
 
-import org.apache.struts2.ServletActionContext;
-
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 import com.zhujunwei.domain.Customer;
@@ -16,17 +15,21 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 	Customer customer = new Customer();
 	CustomerService service = new CustomerServiceImp();
 	
-	@Override
-	public Customer getModel() {
-		return customer;
-	}
 	
+	
+	//查询所有客户
 	public String find() {
 		List<Customer> list = service.find();
-		ServletActionContext.getRequest().setAttribute("list", list);
+		
+		//存数据。
+		//方法一：存到request
+//		ServletActionContext.getRequest().setAttribute("list", list);
+		//方法二：存到ValueStack
+		ActionContext.getContext().getValueStack().set("list", list);
 		return "findSuccess" ;
 	}
-
+	
+	//保存客户
 	public String saveUI() {
 		return "saveUI" ;
 	}
@@ -35,6 +38,9 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
 		return "saveSuccess" ;
 	}
 
-	
+	@Override
+	public Customer getModel() {
+		return customer;
+	}
 
 }
