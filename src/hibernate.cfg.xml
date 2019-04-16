@@ -29,6 +29,7 @@
 		
 		<!-- 映射文件路径 -->
 		<mapping resource="com/zhujunwei/domain/Customer.hbm.xml"/>
+		<mapping resource="com/zhujunwei/domain/User.hbm.xml"/>
 		
 		
 	</session-factory>

@@ -9,13 +9,42 @@
 	<!-- 配置扩展名 -->
 	<constant name="struts.action.extension" value="action"/>
 	
+	
+	
 	<!-- Struts2为了管理Action的配置，通过包进行管理 -->
 	<!-- 配置Struts2的包 -->
     <package name="crm" namespace="/" extends="struts-default">
+    
+		<!-- 定义拦截器 -->
+		<interceptors>
+			<interceptor name="privilegeInterceptor" class="com.zhujunwei.web.interceptor.PrivilegeInterceptor"></interceptor>
+		</interceptors>
+		
+		<!-- 配置全局结果页面 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+		</global-results>
+	
 		<action name="customer_*" class="com.zhujunwei.web.action.CustomerAction" method="{1}">
 			<result name="findSuccess">/jsp/customer/list.jsp</result>
 			<result name="saveUI">/jsp/customer/add.jsp</result>
 			<result name="saveSuccess" type="redirectAction">customer_find</result>
+			
+			<!-- 引入拦截器 -->
+			<interceptor-ref name="privilegeInterceptor"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+		</action>
+		
+		<action name="user_*" class="com.zhujunwei.web.action.UserAction" method="{1}">
+			<result name="success" type="redirect">/index.jsp</result>
+			
+			<!-- 引入拦截器 -->
+			<interceptor-ref name="privilegeInterceptor">
+				<!-- 添加不拦截的方法 -->
+				<param name="excludeMethods">login</param>
+			</interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
 		</action>
     	
     </package>
